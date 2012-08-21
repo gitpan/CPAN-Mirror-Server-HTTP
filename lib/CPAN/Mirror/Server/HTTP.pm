@@ -1,6 +1,6 @@
 package CPAN::Mirror::Server::HTTP;
-BEGIN {
-  $CPAN::Mirror::Server::HTTP::VERSION = '0.02';
+{
+  $CPAN::Mirror::Server::HTTP::VERSION = '0.04';
 }
 
 #ABSTRACT: Simple HTTP server for serving a CPAN mirror
@@ -115,7 +115,7 @@ sub _handle_request {
   my $conn = shift;
   my $root = shift;
   REQ: while (my $req = $conn->get_request) {
-    if ($req->method eq 'GET' ) {
+    if ($req->method eq 'GET' or $req->method eq 'HEAD') {
       # Special case /icons
       if ( my ($icon) = $req->uri->path =~ m#^/icons/(back|blank|compressed|folder|unknown)\.gif$# ) {
         my $resp = _gen_icon( $icon );
@@ -288,7 +288,7 @@ CPAN::Mirror::Server::HTTP - Simple HTTP server for serving a CPAN mirror
 
 =head1 VERSION
 
-version 0.02
+version 0.04
 
 =head1 SYNPOSIS
 
@@ -308,7 +308,7 @@ Chris Williams <chris@bingosnet.co.uk>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Chris Williams.
+This software is copyright (c) 2012 by Chris Williams.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
